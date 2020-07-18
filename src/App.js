@@ -1,24 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import Routes from './routes'
+import { Link, useHistory } from 'react-router-dom'
+import logo from './img/logo.png'
 
 function App() {
+
+  const history = useHistory()
+  const [path, setPath] = useState("")
+
+  window.addEventListener("load", () => {
+    if (window.location.pathname === '/contact') {
+      setPath(window.location.pathname)
+    }
+  })
+
+  const checkPath = () => {
+    history.listen((location) => {
+      setPath(location.pathname)
+    })
+  }
+
+  useEffect(() => {
+    checkPath()
+  }, [])
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='container'>
+        <nav>
+          <ul>
+            <li><Link to='/'> <img src={logo} className="logo"/> </Link></li>
+          </ul>
+          <ul>
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='/'>Service</Link></li>
+            <li><Link to='/'>About</Link></li>
+            {/* <li>{_contact}</li> */}
+            <li><Link to='/contact'>Contact Me</Link></li>
+            <li><Link to='/blog'>blog</Link></li>
+            <li><Link to='/signin'>Sign in</Link></li>
+          </ul>
+        </nav>
+        <Routes />
+      </div>
     </div>
   );
 }
